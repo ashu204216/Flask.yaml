@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .error-container {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .error-code {
+            font-size: 6em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .error-message {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin: 20px 0;
+        }
+        
+        .error-description {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            margin: 20px 0;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-container">
+            <h1 class="error-code">404</h1>
+            <h2 class="error-message">Page Not Found</h2>
+            <p class="error-description">
+                The page you're looking for doesn't exist or has been moved.
+            </p>
+            <a href="/" class="back-button">← Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

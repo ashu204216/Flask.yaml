@@ -1,0 +1,57 @@
+steps:
+  # Step 1: Copy static files to a staging directory
+  - name: 'gcr.io/cloud-builders/gsutil'
+    id: 'prepare-files'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Preparing files for deployment..."
+        mkdir -p /workspace/dist
+        cp -r *.html *.css *.js /workspace/dist/ 2>/dev/null || true
+        ls -la /workspace/dist/
+
+  # Step 2: Deploy to Google Cloud Storage
+  - name: 'gcr.io/cloud-builders/gsutil'
+    id: 'deploy-to-gcs'
+    args:
+      - '-m'
+      - 'rsync'
+      - '-r'
+      - '-d'
+      - '/workspace/dist/'
+      - 'gs://${_BUCKET_NAME}/'
+
+  # Step 3: Set proper permissions for public access
+  - name: 'gcr.io/cloud-builders/gsutil'
+    id: 'set-permissions'
+    args:
+      - '-m'
+      - 'acl'
+      - 'ch'
+      - '-r'
+      - '-u'
+      - 'AllUsers:R'
+      - 'gs://${_BUCKET_NAME}/**'
+
+  # Step 4: Set cache control headers
+  - name: 'gcr.io/cloud-builders/gsutil'
+    id: 'set-cache-headers'
+    args:
+      - '-m'
+      - 'setmeta'
+      - '-h'
+      - 'Cache-Control:public, max-age=3600'
+      - 'gs://${_BUCKET_NAME}/**'
+
+# Substitutions (variables)
+substitutions:
+  _BUCKET_NAME: 'your-static-website-bucket'  # Replace with your actual bucket name
+
+# Options
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_8'
+
+# Timeout
+timeout: '600s'
